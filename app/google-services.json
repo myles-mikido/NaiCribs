@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997560393742",
+    "project_id": "naicribs-7de51",
+    "storage_bucket": "naicribs-7de51.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997560393742:android:d1493d0dbc6d3d265e5c5f",
+        "android_client_info": {
+          "package_name": "com.example.naicribs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW5DHN6HtlXjniissL9LDteCTDBiV79us"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
