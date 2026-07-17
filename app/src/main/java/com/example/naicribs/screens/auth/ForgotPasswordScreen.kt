@@ -6,6 +6,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,11 +65,20 @@ fun ForgotPasswordScreen(navController: NavController, viewModel: AuthViewModel)
             Spacer(Modifier.height(12.dp))
         }
 
+        var showPass = false
         NaiCribsTextField(
             value = email, onValueChange = { email = it },
             label = "Email address", leadingIcon = Icons.Default.Email,
-            keyboardType = KeyboardType.Email
-        )
+            keyboardType = KeyboardType.Email,
+            visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation()
+        ) {
+            IconButton(onClick = { showPass = !showPass }) {
+                Icon(
+                    if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                    contentDescription = null, tint = NaiCribsColors.TextMuted
+                )
+            }
+        }
         Spacer(Modifier.height(16.dp))
 
         Button(

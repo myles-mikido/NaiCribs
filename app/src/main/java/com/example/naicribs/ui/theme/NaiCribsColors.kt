@@ -2,7 +2,7 @@ package com.example.naicribs.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-object NaiCribsColors {
+object NaiCribColors {
     val Purple       = Color(0xFF7F77DD)
     val PurpleLight  = Color(0xFFEEEDFE)
     val PurpleMid    = Color(0xFFAFA9EC)

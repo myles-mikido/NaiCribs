@@ -69,7 +69,12 @@ fun AppNavHost() {
 
         composable(Routes.AddListing) {
             val addViewModel: AddListingViewModel = viewModel()
-            AddListingScreen(navController = navController, viewModel = addViewModel)
+            val showPass = false
+            AddListingScreen(
+                navController = navController,
+                viewModel = addViewModel,
+                showPass = showPass
+            )
         }
 
         composable(Routes.ApartmentForm) {

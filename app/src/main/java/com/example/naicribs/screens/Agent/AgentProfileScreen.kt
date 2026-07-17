@@ -16,97 +16,95 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.naicribs.data.AuthViewModel
 import com.example.naicribs.navigation.Routes
 import com.example.naicribs.screens.common.NaiCribsTopBar
-import com.example.naicribs.ui.theme.NaiCribsColors
 
 @Composable
 fun AgentProfileScreen(navController: NavController, viewModel: AuthViewModel) {
     val state by viewModel.state.collectAsState()
 
     Scaffold(
-        topBar = { NaiCribsTopBar(title = "My Profile", onBackClick = { navController.popBackStack() }) }
+        topBar = { NaiCribsTopBar(title = "My Profile", onBackClick = { navController.popBackStack() }) },
+        containerColor = MaterialTheme.colorScheme.background,
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(NaiCribsColors.Background)
-                .padding(padding),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // Header banner
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(160.dp)
-                    .background(
-                        Brush.verticalGradient(listOf(NaiCribsColors.PurpleDark, NaiCribsColors.Purple))
-                    ),
-                contentAlignment = Alignment.Center
+        BoxWithConstraints(modifier = Modifier.fillMaxSize().padding(padding)) {
+            val isWideScreen = maxWidth > 600.dp
+            val contentModifier = if (isWideScreen) Modifier.widthIn(max = 520.dp) else Modifier.fillMaxWidth()
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(
-                        modifier = Modifier.size(72.dp).clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.25f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(Icons.Default.Person, contentDescription = null, tint = Color.White, modifier = Modifier.size(44.dp))
-                    }
-                    Spacer(Modifier.height(8.dp))
-                    Text(state.currentUser?.fullName ?: "Agent", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                    Text("Agent · NaiCribs", fontSize = 13.sp, color = Color.White.copy(alpha = 0.7f))
-                }
-            }
-
-            Spacer(Modifier.height(20.dp))
-
-
-            Surface(
-                shape           = RoundedCornerShape(16.dp),
-                color           = Color.White,
-                shadowElevation = 2.dp,
-                modifier        = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(20.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                // Header banner
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.tertiary)
+                            )
+                        ),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Text("Account Info", fontSize = 14.sp, fontWeight = FontWeight.SemiBold, color = NaiCribsColors.TextPrimary)
-
-
-                    ProfileInfoRow(
-                        icon  = Icons.Default.Person,
-                        label = "Full name",
-                        value = state.currentUser?.fullName ?: "—"
-                    )
-                    ProfileInfoRow(
-                        icon  = Icons.Default.AccountCircle,
-                        label = "Role",
-                        value = "Agent"
-                    )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Box(
+                            modifier = Modifier.size(80.dp).clip(CircleShape)
+                                .background(Color.White.copy(alpha = 0.22f)),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(Icons.Default.Person, contentDescription = null, tint = Color.White, modifier = Modifier.size(46.dp))
+                        }
+                        Spacer(Modifier.height(10.dp))
+                        Text(state.currentUser?.fullName ?: "Agent", style = MaterialTheme.typography.titleLarge, color = Color.White)
+                        Text("Agent · NaiCribs", style = MaterialTheme.typography.bodyMedium, color = Color.White.copy(alpha = 0.8f))
+                    }
                 }
-            }
 
-            Spacer(Modifier.height(20.dp))
+                Spacer(Modifier.height(24.dp))
 
+                Column(
+                    modifier = contentModifier.padding(horizontal = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                ) {
+                    ElevatedCard(
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 1.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                            Text("Account info", style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface)
 
-            Button(
-                onClick = {
-                    viewModel.logout()
-                    navController.navigate(Routes.Login) { popUpTo(0) { inclusive = true } }
-                },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp).height(50.dp),
-                shape    = RoundedCornerShape(12.dp),
-                colors   = ButtonDefaults.buttonColors(containerColor = NaiCribsColors.Error)
-            ) {
-                Icon(Icons.Default.Logout, contentDescription = null)
-                Spacer(Modifier.width(8.dp))
-                Text("Sign out", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                            ProfileInfoRow(icon = Icons.Default.Person, label = "Full name", value = state.currentUser?.fullName ?: "—")
+                            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                            ProfileInfoRow(icon = Icons.Default.AccountCircle, label = "Role", value = "Agent")
+                        }
+                    }
+
+                    Button(
+                        onClick = {
+                            viewModel.logout()
+                            navController.navigate(Routes.Login) { popUpTo(0) { inclusive = true } }
+                        },
+                        modifier = Modifier.fillMaxWidth().height(52.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer,
+                            contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
+                    ) {
+                        Icon(Icons.Default.Logout, contentDescription = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Sign out", style = MaterialTheme.typography.titleSmall)
+                    }
+
+                    Spacer(Modifier.height(12.dp))
+                }
             }
         }
     }
@@ -115,11 +113,17 @@ fun AgentProfileScreen(navController: NavController, viewModel: AuthViewModel) {
 @Composable
 private fun ProfileInfoRow(icon: ImageVector, label: String, value: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, contentDescription = null, tint = NaiCribsColors.Purple, modifier = Modifier.size(20.dp))
-        Spacer(Modifier.width(12.dp))
+        Box(
+            modifier = Modifier.size(40.dp).clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(20.dp))
+        }
+        Spacer(Modifier.width(14.dp))
         Column {
-            Text(label, fontSize = 11.sp, color = NaiCribsColors.TextMuted)
-            Text(value, fontSize = 14.sp, color = NaiCribsColors.TextPrimary, fontWeight = FontWeight.Medium)
+            Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(value, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurface)
         }
     }
 }

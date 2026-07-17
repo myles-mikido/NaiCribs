@@ -89,8 +89,21 @@ fun LoginScreen(
                 }
             }
 
-            NaiCribsTextField(value = email, onValueChange = { email = it },
-                label = "Email address", leadingIcon = Icons.Default.Email, keyboardType = KeyboardType.Email)
+            NaiCribsTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = "Email address",
+                leadingIcon = Icons.Default.Email,
+                keyboardType = KeyboardType.Email,
+                visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation()
+            ) {
+                IconButton(onClick = { showPass = !showPass }) {
+                    Icon(
+                        if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                        contentDescription = null, tint = NaiCribsColors.TextMuted
+                    )
+                }
+            }
 
             NaiCribsTextField(
                 value = password, onValueChange = { password = it },
