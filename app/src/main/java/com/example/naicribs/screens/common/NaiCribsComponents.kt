@@ -1,5 +1,6 @@
 package com.example.naicribs.screens.common
 
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -7,6 +8,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -44,21 +46,26 @@ import androidx.compose.ui.unit.dp
 /**
  * MD3 outlined text field with consistent rounding, icon tinting and
  * error affordance, used across every form in the app.
+ *
+ * Includes [trailingContent] and [visualTransformation] (used e.g. for
+ * password show/hide toggles on auth screens) alongside the newer
+ * [isError] / [supportingText] / [enabled] additions, so every existing
+ * call site across the app keeps compiling.
  */
 @Composable
 fun NaiCribsTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    leadingIcon: ImageVector? = null,
     modifier: Modifier = Modifier,
+    leadingIcon: ImageVector? = null,
+    trailingContent: @Composable (() -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     singleLine: Boolean = true,
     isError: Boolean = false,
     supportingText: String? = null,
-    enabled: Boolean = true,
-    visualTransformation: VisualTransformation,
-    trailingContent: @Composable () -> Unit,
+    enabled: @Composable Boolean = true,
 ) {
     OutlinedTextField(
         value = value,
@@ -67,6 +74,8 @@ fun NaiCribsTextField(
         leadingIcon = leadingIcon?.let {
             { Icon(it, contentDescription = null, modifier = Modifier.size(20.dp)) }
         },
+        trailingIcon = trailingContent,
+        visualTransformation = visualTransformation,
         singleLine = singleLine,
         isError = isError,
         enabled = enabled,

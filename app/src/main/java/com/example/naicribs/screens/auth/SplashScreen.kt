@@ -1,15 +1,14 @@
 package com.example.naicribs.screens.splash
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
 import com.example.naicribs.R
@@ -29,29 +28,30 @@ fun SplashScreen(navController: NavController) {
     }
 
     Box(
-        modifier        = Modifier
+        modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .padding(32.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             LottieAnimation(
                 composition = composition,
-                progress    = { progress },
-                modifier    = Modifier.size(200.dp)
+                progress = { progress },
+                modifier = Modifier.size(200.dp),
             )
             Spacer(modifier = Modifier.height(16.dp))
             GradientText(
-                text     = "NaiCribs",
+                text = "NaiCribs",
                 gradient = Brush.horizontalGradient(
-                    colors = listOf(Color(0xFF7F77DD), Color(0xFF1D9E75))
-                )
+                    colors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.tertiary),
+                ),
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text  = "Find your next home in Nairobi",
+                text = "Find your next home in Nairobi",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
@@ -60,9 +60,8 @@ fun SplashScreen(navController: NavController) {
 @Composable
 fun GradientText(text: String, gradient: Brush) {
     Text(
-        text      = text,
-        fontSize  = 32.sp,
+        text = text,
         fontWeight = FontWeight.Bold,
-        style     = MaterialTheme.typography.headlineMedium.copy(brush = gradient)
+        style = MaterialTheme.typography.headlineMedium.copy(brush = gradient),
     )
 }

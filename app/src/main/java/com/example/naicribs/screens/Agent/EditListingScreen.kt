@@ -13,15 +13,11 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notes
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.naicribs.data.AddListingViewModel
@@ -33,7 +29,6 @@ import com.example.naicribs.screens.common.NaiCribsErrorBanner
 import com.example.naicribs.screens.common.NaiCribsSectionLabel
 import com.example.naicribs.screens.common.NaiCribsTextField
 import com.example.naicribs.screens.common.NaiCribsTopBar
-import com.example.naicribs.ui.theme.NaiCribsColors
 import kotlinx.coroutines.launch
 
 @Composable
@@ -105,21 +100,7 @@ fun EditListingScreen(
                         NaiCribsSectionLabel("Basic details")
                         Spacer(Modifier.height(12.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                            var showPass = false
-                            NaiCribsTextField(
-                                value = name,
-                                onValueChange = { name = it },
-                                label = "Apartment name",
-                                leadingIcon = Icons.Default.Home,
-                                visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation()
-                            ) {
-                                IconButton(onClick = { showPass = !showPass }) {
-                                    Icon(
-                                        if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                        contentDescription = null, tint = NaiCribsColors.TextMuted
-                                    )
-                                }
-                            }
+                            NaiCribsTextField(value = name, onValueChange = { name = it }, label = "Apartment name", leadingIcon = Icons.Default.Home)
 
                             OutlinedTextField(
                                 value = description,
@@ -144,15 +125,7 @@ fun EditListingScreen(
                                 label = "Price (KSh)",
                                 leadingIcon = Icons.Default.AttachMoney,
                                 keyboardType = KeyboardType.Number,
-                                visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation(),
-                            ) {
-                                IconButton(onClick = { showPass = !showPass }) {
-                                    Icon(
-                                        if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                        contentDescription = null, tint = NaiCribsColors.TextMuted
-                                    )
-                                }
-                            }
+                            )
 
                             Box {
                                 OutlinedTextField(
@@ -189,51 +162,9 @@ fun EditListingScreen(
                         NaiCribsSectionLabel("Location & contact")
                         Spacer(Modifier.height(12.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                            var showPass = false
-                            NaiCribsTextField(
-                                value = location,
-                                onValueChange = { location = it },
-                                label = "Location",
-                                leadingIcon = Icons.Default.LocationOn,
-                                visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation()
-                            ) {
-                                IconButton(onClick = { var showPass = !showPass }) {
-                                    Icon(
-                                        if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                        contentDescription = null, tint = NaiCribsColors.TextMuted
-                                    )
-                                }
-                            }
-                            NaiCribsTextField(
-                                value = contact,
-                                onValueChange = { contact = it },
-                                label = "Contact number",
-                                leadingIcon = Icons.Default.Phone,
-                                keyboardType = KeyboardType.Phone,
-                                visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation()
-                            ) {
-                                IconButton(onClick = { showPass = !showPass }) {
-                                    Icon(
-                                        if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                        contentDescription = null, tint = NaiCribsColors.TextMuted
-                                    )
-                                }
-                            }
-                            NaiCribsTextField(
-                                value = email,
-                                onValueChange = { email = it },
-                                label = "Email",
-                                leadingIcon = Icons.Default.Email,
-                                keyboardType = KeyboardType.Email,
-                                visualTransformation = if (showPass) VisualTransformation.None else PasswordVisualTransformation()
-                            ) {
-                                IconButton(onClick = { showPass = !showPass }) {
-                                    Icon(
-                                        if (showPass) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                                        contentDescription = null, tint = NaiCribsColors.TextMuted
-                                    )
-                                }
-                            }
+                            NaiCribsTextField(value = location, onValueChange = { location = it }, label = "Location", leadingIcon = Icons.Default.LocationOn)
+                            NaiCribsTextField(value = contact, onValueChange = { contact = it }, label = "Contact number", leadingIcon = Icons.Default.Phone, keyboardType = KeyboardType.Phone)
+                            NaiCribsTextField(value = email, onValueChange = { email = it }, label = "Email", leadingIcon = Icons.Default.Email, keyboardType = KeyboardType.Email)
                         }
                     }
 
